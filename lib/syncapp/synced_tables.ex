@@ -63,7 +63,12 @@ defmodule Syncapp.SyncedTables do
   end
 
   def upsert_sync_tables(attrs \\ [[]]) do
-    data = transform_data(attrs)
+    # data = transform_data(attrs)
+
+    data = [
+      %{"table_name" => "users", "last_synced_datetime" => NaiveDateTime.local_now()},
+      %{"table_name" => "employers", "last_synced_datetime" => NaiveDateTime.local_now()}
+    ]
 
     Repo.insert_all(SyncTable, data,
       on_conflict: {:replace, [:last_synced_datetime]},
