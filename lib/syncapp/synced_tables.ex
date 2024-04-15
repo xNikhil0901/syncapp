@@ -72,12 +72,12 @@ defmodule Syncapp.SyncedTables do
   end
 
   defp transform_data(data) do
-    Enum.map(data, fn k ->
-      Map.put(k, "last_synced_datetime", NaiveDateTime.from_iso8601!(k["last_synced_datetime"]))
-    end)
-    |> Enum.map(fn x -> Map.to_list(x) end)
-    |> Enum.map(fn y ->
-      Enum.map(y, fn {key, val} -> {String.to_atom(key), val} end)
+    Enum.map(data, fn x ->
+      Enum.map(x, fn {key, val} ->
+        if key == "last_synced_datetime",
+          do: {String.to_atom(key), NaiveDateTime.from_iso8601!(val)},
+          else: {String.to_atom(key), val}
+      end)
     end)
   end
 
