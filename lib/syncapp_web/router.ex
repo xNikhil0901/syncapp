@@ -8,10 +8,10 @@ defmodule SyncappWeb.Router do
   scope "/api", SyncappWeb do
     pipe_through :api
 
-    get("/users", UserController, :get_all_data)
-    post("/users", UserController, :create_user)
-    post("/employees", UserController, :create_employee)
-    patch("/syncremote", UserController, :sync_server)
+    get("/users", SyncController, :get_all_data)
+    post("/users", SyncController, :create_user)
+    post("/employees", SyncController, :create_employee)
+    patch("/syncremote", SyncController, :sync_server)
   end
 
   # Enable LiveDashboard and Swoosh mailbox preview in development

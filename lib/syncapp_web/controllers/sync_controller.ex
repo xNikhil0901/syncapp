@@ -1,4 +1,4 @@
-defmodule SyncappWeb.UserController do
+defmodule SyncappWeb.SyncController do
   use SyncappWeb, :controller
 
   alias Syncapp.Employees.Employee
