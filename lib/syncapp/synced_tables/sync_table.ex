@@ -4,6 +4,7 @@ defmodule Syncapp.SyncedTables.SyncTable do
 
   schema "synced_tables" do
     field :table_name, :string
+    field :table_fields, :string
     field :last_synced_datetime, :naive_datetime
   end
 

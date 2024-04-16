@@ -29,22 +29,6 @@ defmodule Syncapp.SyncedTables do
   end
 
   @doc """
-  Gets a single sync_table.
-
-  Raises `Ecto.NoResultsError` if the Sync table does not exist.
-
-  ## Examples
-
-      iex> get_sync_table!(123)
-      %SyncTable{}
-
-      iex> get_sync_table!(456)
-      ** (Ecto.NoResultsError)
-
-  """
-  def get_sync_table!(id), do: Repo.get!(SyncTable, id)
-
-  @doc """
   Creates a sync_table.
 
   ## Examples
@@ -63,12 +47,12 @@ defmodule Syncapp.SyncedTables do
   end
 
   def upsert_sync_tables(attrs \\ [[]]) do
-    # data = transform_data(attrs)
-
-    data = [
-      %{"table_name" => "users", "last_synced_datetime" => NaiveDateTime.local_now()},
-      %{"table_name" => "employers", "last_synced_datetime" => NaiveDateTime.local_now()}
-    ]
+    data =
+      [
+        %{"table_name" => "users", "last_synced_datetime" => NaiveDateTime.local_now()},
+        %{"table_name" => "employers", "last_synced_datetime" => NaiveDateTime.local_now()}
+      ]
+      |> transform_data()
 
     Repo.insert_all(SyncTable, data,
       on_conflict: {:replace, [:last_synced_datetime]},
@@ -102,34 +86,5 @@ defmodule Syncapp.SyncedTables do
     sync_table
     |> SyncTable.changeset(attrs)
     |> Repo.update()
-  end
-
-  @doc """
-  Deletes a sync_table.
-
-  ## Examples
-
-      iex> delete_sync_table(sync_table)
-      {:ok, %SyncTable{}}
-
-      iex> delete_sync_table(sync_table)
-      {:error, %Ecto.Changeset{}}
-
-  """
-  def delete_sync_table(%SyncTable{} = sync_table) do
-    Repo.delete(sync_table)
-  end
-
-  @doc """
-  Returns an `%Ecto.Changeset{}` for tracking sync_table changes.
-
-  ## Examples
-
-      iex> change_sync_table(sync_table)
-      %Ecto.Changeset{data: %SyncTable{}}
-
-  """
-  def change_sync_table(%SyncTable{} = sync_table, attrs \\ %{}) do
-    SyncTable.changeset(sync_table, attrs)
   end
 end

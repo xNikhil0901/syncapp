@@ -1,8 +1,14 @@
 defmodule Syncapp.Repo.Migrations.AddSyncedTablesData do
   use Ecto.Migration
 
-  def change do
+  @tables_to_sync ~w(test cities)s
+
+  def up do
     seed()
+  end
+
+  def down do
+    execute "DROP TABLE IF EXISTS synced_tables"
   end
 
   defp seed do
@@ -10,9 +16,18 @@ defmodule Syncapp.Repo.Migrations.AddSyncedTablesData do
   end
 
   defp default_data do
-    [
-      %{table_name: "users", last_synced_datetime: NaiveDateTime.local_now()},
-      %{table_name: "employees", last_synced_datetime: NaiveDateTime.local_now()}
-    ]
+    Enum.map(@tables_to_sync, fn table ->
+      %{
+        table_name: table,
+        last_synced_datetime: NaiveDateTime.local_now(),
+        table_fields: build_data(table)
+      }
+    end)
+  end
+
+  defp build_data(table) do
+    str = Syncapp.Tables.Info.get_columns(table) |> Enum.join(" ")
+
+    "~w(" <> str <> ")a"
   end
 end

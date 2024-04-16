@@ -4,6 +4,7 @@ defmodule Syncapp.Repo.Migrations.CreateSyncedTables do
   def up do
     create table(:synced_tables) do
       add :table_name, :string
+      add :table_fields, :string
       add :last_synced_datetime, :naive_datetime, null: false
     end
 
@@ -11,6 +12,6 @@ defmodule Syncapp.Repo.Migrations.CreateSyncedTables do
   end
 
   def down do
-    drop table(:synced_tables)
+    execute "DROP TABLE IF EXISTS synced_tables"
   end
 end
