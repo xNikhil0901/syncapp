@@ -13,7 +13,7 @@ config :syncapp,
 
 # Configures the endpoint
 config :syncapp, SyncappWeb.Endpoint,
-  url: [host: "localhost"],
+  url: [host: "0.0.0.0"],
   adapter: Bandit.PhoenixAdapter,
   render_errors: [
     formats: [json: SyncappWeb.ErrorJSON],
@@ -38,6 +38,8 @@ config :logger, :console,
 
 # Use Jason for JSON parsing in Phoenix
 config :phoenix, :json_library, Jason
+
+config :syncapp, startup_time: NaiveDateTime.local_now() |> NaiveDateTime.add(-24, :hour)
 
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.

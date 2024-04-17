@@ -8,9 +8,7 @@ defmodule SyncappWeb.Router do
   scope "/api", SyncappWeb do
     pipe_through :api
 
-    get("/users", SyncController, :get_all_data)
-    post("/users", SyncController, :create_user)
-    post("/employees", SyncController, :create_employee)
+    get("/unsynceddata", SyncController, :get_unsynced_data)
     patch("/syncremote", SyncController, :sync_server)
   end
 
