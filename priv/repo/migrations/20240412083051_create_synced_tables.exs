@@ -2,11 +2,10 @@ defmodule Syncapp.Repo.Migrations.CreateSyncedTables do
   use Ecto.Migration
 
   def up do
-    create table(:synced_tables) do
+    create table(:synced_tables, primary_key: false) do
+      add :sync_table_id, :serial, primary_key: true
       add :table_name, :string
       add :table_fields, :string
-      add :user_id, :bigint
-      add :last_synced_datetime, :naive_datetime
     end
   end
 
