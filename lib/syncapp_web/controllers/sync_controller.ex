@@ -35,9 +35,8 @@ defmodule SyncappWeb.SyncController do
     end)
   end
 
-  @spec sync_server(Plug.Conn.t(), nil | maybe_improper_list() | map()) :: Plug.Conn.t()
-  def sync_server(conn, params) do
-    Syncapp.SyncedTables.upsert_sync_tables(params["update_synced_tables"])
+  def sync_server(conn, _params) do
+    # Syncapp.SyncedTables.upsert_sync_tables(params["update_synced_tables"])
 
     conn
     |> put_resp_content_type("application/json")
