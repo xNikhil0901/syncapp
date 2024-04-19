@@ -13,12 +13,13 @@ defmodule Syncapp.Tables.Query do
         :error
 
       _ ->
-        query =
-          from t in table,
-            select: ^eval_expr(synced_table_info.table_fields),
-            where: t.updated_at > ^last_sync_datetime(synced_table_info)
-
-        Repo.all(query)
+        table
+        |> where(
+          [t],
+          t.updated_at > ^last_sync_datetime(synced_table_info) and is_nil(t.deleted_at)
+        )
+        |> select([t], ^eval_expr(synced_table_info.table_fields))
+        |> Repo.all()
     end
   end
 
